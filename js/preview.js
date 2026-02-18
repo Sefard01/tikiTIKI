@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  /* ---------------- URL PARAM ---------------- */
+
   const params = new URLSearchParams(window.location.search);
   const folderId = params.get("id");
 
@@ -9,72 +11,98 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Folder not found");
     return;
   }
-  
+
+  /* ---------------- ELEMENTS ---------------- */
+
   const display = document.querySelector(".display");
-  const theem = document.querySelector("#theem")
+  const themeBtn = document.getElementById("theem");
+
   const videoBox = document.getElementById("videos");
-  const player = document.getElementById("player");
+
+  const videoPlayer = document.getElementById("player");
+  const ytPlayer = document.getElementById("ytPlayer");
+
   const title = document.getElementById("title");
   const path = document.getElementById("path");
-  let click = false;
 
-  theem.addEventListener('click', ()=>{
-    if(!click){
-      theem.innerText="Dark";
-      display.style.background = "white";
-      display.style.color = "#000";
-
-      
-
-      click=true;
-
-    }
-    else{
-      theem.innerText="Light";
-      display.style.background = "#1e1d1d";
-      display.style.color = "#fff";
-
-      click=false;
-      
-    }
-    
-  })
-
-  
-
-
-
-
-  if (!videoBox || !player || !title) {
-    console.error("Required elements missing in HTML");
+  if (!videoBox || !videoPlayer || !ytPlayer || !title || !path) {
+    console.error("Required HTML elements missing");
     return;
   }
 
   let currentIndex = 0;
+  let isDark = true;
 
-  // Render Video List
-  folder.videos.forEach((video, index) => {
-    const div = document.createElement("div");
-    div.classList.add("item");
-    div.textContent = video.title;
-    div.setAttribute("data-index", index);
-    videoBox.appendChild(div);
+  /* ---------------- THEME TOGGLE ---------------- */
+
+  themeBtn.addEventListener("click", () => {
+    isDark = !isDark;
+
+    if (isDark) {
+      display.style.background = "#1e1d1d";
+      display.style.color = "#fff";
+      themeBtn.innerText = "Light";
+    } else {
+      display.style.background = "#ffffff";
+      display.style.color = "#000";
+      themeBtn.innerText = "Dark";
+    }
   });
 
-  // Load Video Function
+  /* ---------------- RENDER VIDEO LIST ---------------- */
+
+  folder.videos.forEach((video, index) => {
+    const item = document.createElement("div");
+    item.className = "item";
+    item.textContent = video.title;
+    item.dataset.index = index;
+    videoBox.appendChild(item);
+  });
+
+  /* ---------------- PLAYER SWITCH LOGIC ---------------- */
+
   function loadVideo(index) {
+
     const video = folder.videos[index];
     if (!video) return;
 
     currentIndex = index;
 
-    player.src = video.file;
-    player.load();
-    player.play();
+    const file = video.file;
 
-    title.innerText = video.title;
-    path.innerText= `${folderId}/${video.title}`;
+    // Reset players
+    videoPlayer.pause();
+    videoPlayer.style.display = "none";
+    ytPlayer.style.display = "none";
+    ytPlayer.src = "";
 
+    // YouTube detection
+    if (file.includes("youtu")) {
+
+      let videoId = "";
+
+      if (file.includes("youtu.be")) {
+        videoId = file.split("youtu.be/")[1];
+      } else if (file.includes("watch?v=")) {
+        videoId = file.split("watch?v=")[1];
+      }
+
+      ytPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      ytPlayer.style.display = "block";
+
+    } else {
+
+      videoPlayer.src = file;
+      videoPlayer.style.display = "block";
+      videoPlayer.load();
+      videoPlayer.play();
+
+    }
+
+    title.textContent = video.title;
+    path.textContent = `${folderId}/${video.title}`;
+
+    // Active highlight
     document.querySelectorAll("#videos .item")
       .forEach(el => el.classList.remove("active"));
 
@@ -85,18 +113,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (activeItem) {
       activeItem.classList.add("active");
     }
+
   }
 
-  // Click Listener
+  /* ---------------- CLICK EVENT ---------------- */
+
   videoBox.addEventListener("click", (e) => {
     const item = e.target.closest(".item");
     if (!item) return;
 
-    const index = parseInt(item.getAttribute("data-index"));
+    const index = Number(item.dataset.index);
     loadVideo(index);
   });
 
-  // First Load
+  /* ---------------- AUTO LOAD FIRST VIDEO ---------------- */
+
   if (folder.videos.length > 0) {
     loadVideo(0);
   }

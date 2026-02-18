@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Library</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body >
-  <header>
-  <nav>
-    <div class="logo"><span>Nex</span>Club</div>
+
+<body>
+
+<header>
+  <nav class="navbar">
+
+    <div class="nav-left">
+      <div class="logo">
+        <span>Ping</span>Pong
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <p id="path"></p>
+      <button id="theem" type="button">Light</button>
+    </div>
+
   </nav>
 </header>
 
+<!-- ================= MAIN CONTENT ================= -->
 
-<div class="container">
+<main class="container">
   <div id="folders"></div>
-</div>
+</main>
+
+<!-- ================= SCRIPTS ================= -->
 
 <script src="js/data.js"></script>
 <script src="js/index.js"></script>
