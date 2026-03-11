@@ -1,41 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NexClub</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>EventHub</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-  <nav class="navbar">
+  <!-- NAVBAR -->
+  <header class="navbar">
 
-    <div class="nav-left">
+    <div class="nav-container">
+
       <div class="logo">
-        <span>Ping</span>Pong
+        NEXCLUB
       </div>
+
+      <div class="nav-buttons">
+
+<button class="btn signin">Sign In</button>
+
+<button class="btn signup">Sign Up</button>
+
+<span class="user-info" id="userInfo"></span>
+
+<button class="btn logout" id="logoutBtn" style="display:none">
+Logout
+</button>
+
+</div>
     </div>
 
-    <div class="nav-right">
-      <p id="path"></p>
-      <button id="theem" type="button">Light</button>
+  </header>
+
+
+
+
+  <section class="hero">
+
+  <div class="hero-container">
+
+    <!-- LEFT SIDE EVENTS -->
+    <div class="top-events">
+
+      <h2>Top Events</h2>
+
+      <ul id="eventList">
+        <li data-index="0" class="active">1. Tech Conference</li>
+        <li data-index="1">2. Music Festival</li>
+        <li data-index="2">3. Startup Meetup</li>
+        <li data-index="3">4. Design Workshop</li>
+        <li data-index="4">5. Gaming Expo</li>
+      </ul>
+
     </div>
 
-  </nav>
-</header>
 
-<!-- ================= MAIN CONTENT ================= -->
+    <!-- RIGHT SIDE SLIDER -->
+    <div class="banner-slider">
 
-<main class="container">
-  <div id="folders"></div>
-</main>
+      <div class="slides">
 
-<!-- ================= SCRIPTS ================= -->
+        <img src="https://picsum.photos/900/500?1" class="slide active">
+        <img src="https://picsum.photos/900/500?2" class="slide">
+        <img src="https://picsum.photos/900/500?3" class="slide">
+        <img src="https://picsum.photos/900/500?4" class="slide">
+        <img src="https://picsum.photos/900/500?5" class="slide">
 
-<script src="js/data.js"></script>
-<script src="js/index.js"></script>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- COUNTDOWN TIMER -->
+  <div class="countdown">
+
+    <h3>Next Event Starts In</h3>
+
+    <div class="timer">
+
+      <div>
+        <span id="days">00</span>
+        <p>Days</p>
+      </div>
+
+      <div>
+        <span id="hours">00</span>
+        <p>Hours</p>
+      </div>
+
+      <div>
+        <span id="minutes">00</span>
+        <p>Minutes</p>
+      </div>
+
+      <div>
+        <span id="seconds">00</span>
+        <p>Seconds</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="events-section">
+
+<h2 class="section-title">Upcoming Events</h2>
+
+<!-- FILTER BAR -->
+
+<div class="filters">
+
+<input type="text" id="searchInput" placeholder="Search event...">
+
+<select id="modeFilter">
+<option value="">Mode</option>
+<option value="online">Online</option>
+<option value="offline">Offline</option>
+<option value="hybrid">Hybrid</option>
+</select>
+
+<select id="levelFilter">
+<option value="">Level</option>
+<option value="beginner">Beginner</option>
+<option value="intermediate">Intermediate</option>
+<option value="advanced">Advanced</option>
+</select>
+
+<select id="locationFilter">
+<option value="">Location</option>
+<option value="delhi">Delhi</option>
+<option value="mumbai">Mumbai</option>
+<option value="online">Online</option>
+</select>
+
+</div>
+
+
+<!-- EVENTS GRID -->
+
+<div class="events-grid" id="eventsGrid">
+
+
+<div class="event-card"
+data-name="tech conference"
+data-mode="offline"
+data-level="intermediate"
+data-location="delhi">
+
+<img src="https://picsum.photos/400/250?6">
+
+<div class="event-info">
+
+<h3>Tech Conference</h3>
+
+<p>📅 12 April</p>
+<p>⏰ 10:00 AM</p>
+<p>📍 Delhi</p>
+<p>Mode: Offline</p>
+<p>Level: Intermediate</p>
+
+</div>
+
+</div>
+
+
+
+<div class="event-card"
+data-name="design workshop"
+data-mode="online"
+data-level="beginner"
+data-location="online">
+
+<img src="https://picsum.photos/400/250?7">
+
+<div class="event-info">
+
+<h3>Design Workshop</h3>
+
+<p>📅 15 April</p>
+<p>⏰ 4:00 PM</p>
+<p>📍 Online</p>
+<p>Mode: Online</p>
+<p>Level: Beginner</p>
+
+</div>
+
+</div>
+
+
+
+<div class="event-card"
+data-name="startup meetup"
+data-mode="hybrid"
+data-level="advanced"
+data-location="mumbai">
+
+<img src="https://picsum.photos/400/250?8">
+
+<div class="event-info">
+
+<h3>Startup Meetup</h3>
+
+<p>📅 18 April</p>
+<p>⏰ 6:00 PM</p>
+<p>📍 Mumbai</p>
+<p>Mode: Hybrid</p>
+<p>Level: Advanced</p>
+
+</div>
+
+</div>
+
+
+
+</div>
+
+</section>
+
+<section class="gallery-section">
+
+<h2 class="section-title">Events Gallery</h2>
+
+<!-- SEARCH + FILTER -->
+
+<div class="gallery-controls">
+
+<input type="text" id="gallerySearch" placeholder="Search event photos">
+
+<select id="galleryFilter">
+<option value="">All Events</option>
+<option value="tech">Tech Conference</option>
+<option value="music">Music Festival</option>
+<option value="startup">Startup Meetup</option>
+<option value="design">Design Workshop</option>
+</select>
+
+</div>
+
+
+<!-- GALLERY GRID -->
+
+<div class="gallery-grid" id="galleryGrid">
+
+<div class="gallery-card" data-event="tech" data-name="tech conference">
+<img src="https://picsum.photos/400/300?21">
+<div class="gallery-title">Tech Conference</div>
+</div>
+
+<div class="gallery-card" data-event="music" data-name="music festival">
+<img src="https://picsum.photos/400/300?22">
+<div class="gallery-title">Music Festival</div>
+</div>
+
+<div class="gallery-card" data-event="startup" data-name="startup meetup">
+<img src="https://picsum.photos/400/300?23">
+<div class="gallery-title">Startup Meetup</div>
+</div>
+
+<div class="gallery-card" data-event="design" data-name="design workshop">
+<img src="https://picsum.photos/400/300?24">
+<div class="gallery-title">Design Workshop</div>
+</div>
+
+<div class="gallery-card" data-event="tech" data-name="tech conference">
+<img src="https://picsum.photos/400/300?25">
+<div class="gallery-title">Tech Conference</div>
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- FULLSCREEN IMAGE MODAL -->
+
+<div class="image-modal" id="imageModal">
+
+<span class="close-modal">×</span>
+
+<img id="modalImage">
+
+<p id="modalTitle"></p>
+
+</div>
+
+<section class="join-section">
+
+<div class="join-container">
+
+<h2>Join Amazing Events</h2>
+
+<p>
+Meet innovators, creators, and professionals through exciting events,
+workshops, and meetups happening around you.
+</p>
+
+<button class="join-btn">Join Now</button>
+
+
+<div class="event-highlights">
+
+<div class="highlight">
+<span>50+</span>
+<p>Events Hosted</p>
+</div>
+
+<div class="highlight">
+<span>10K+</span>
+<p>Participants</p>
+</div>
+
+<div class="highlight">
+<span>25+</span>
+<p>Cities</p>
+</div>
+
+<div class="highlight">
+<span>100+</span>
+<p>Speakers</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- animated background elements -->
+
+<div class="cta-glow glow1"></div>
+<div class="cta-glow glow2"></div>
+
+</section>
+
+
+
+<!-- AUTH MODAL -->
+
+<div class="auth-modal" id="authModal">
+
+<div class="auth-box">
+
+<span class="close-auth">×</span>
+
+<h2 id="authTitle">Sign In</h2>
+
+<input type="text" id="authName" placeholder="Full Name" style="display:none">
+
+<input type="email" id="authEmail" placeholder="Email">
+
+<input type="password" id="authPassword" placeholder="Password">
+
+<button id="authSubmit">Continue</button>
+
+<p class="switch-auth">
+<span id="authSwitchText">Don't have an account?</span>
+<a href="#" id="switchAuth">Sign Up</a>
+</p>
+
+</div>
+
+</div>
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<!-- BRAND -->
+
+<div class="footer-brand">
+
+<h3>EventHub</h3>
+
+<p>
+Discover amazing events, connect with people,
+and experience workshops, conferences and meetups.
+</p>
+
+</div>
+
+
+<!-- QUICK LINKS -->
+
+<div class="footer-links">
+
+<h4>Quick Links</h4>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#">Events</a></li>
+<li><a href="#">Gallery</a></li>
+<li><a href="#">Join</a></li>
+</ul>
+
+</div>
+
+
+<!-- EVENTS -->
+
+<div class="footer-links">
+
+<h4>Popular Events</h4>
+
+<ul>
+<li><a href="#">Tech Conference</a></li>
+<li><a href="#">Startup Meetup</a></li>
+<li><a href="#">Music Festival</a></li>
+<li><a href="#">Design Workshop</a></li>
+</ul>
+
+</div>
+
+
+<!-- SOCIAL -->
+
+<div class="footer-social">
+
+<h4>Connect</h4>
+
+<div class="social-icons">
+
+<a href="#">Instagram</a>
+<a href="#">Twitter</a>
+<a href="#">LinkedIn</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- COPYRIGHT -->
+
+<div class="footer-bottom">
+
+<p>© 2026 EventHub. All rights reserved.</p>
+
+</div>
+
+</footer>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
